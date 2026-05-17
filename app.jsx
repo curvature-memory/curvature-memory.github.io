@@ -3,6 +3,18 @@
 const D   = window.CMSTG_DATA;
 const Ctx = window.TweaksContext;
 
+const REPO_BASE = D.meta.repo + "/tree/main/";
+
+// Build a GitHub tree URL for a sim ID string (handles ranges like "SIM83–86")
+function simRepoUrl(id) {
+  const match = id.match(/SIM\d+[a-zA-Z]*/);
+  return match ? REPO_BASE + "Ordered_Simulations/" + match[0] : null;
+}
+
+function paperRepoUrl(p) {
+  return p.repoPath ? REPO_BASE + p.repoPath : null;
+}
+
 // ── KaTeX helper ─────────────────────────────────────────────
 function K({ s }) {
   const ref = React.useRef(null);
@@ -116,7 +128,13 @@ function Papers() {
       <h2 className="sec-title">Publication Record</h2>
       <div className="papers-grid">
         {D.papers.map(p => (
-          <article key={p.id} className={`paper-card paper-card--${p.verdictKind}`}>
+          <a
+            key={p.id}
+            href={paperRepoUrl(p)}
+            target="_blank"
+            rel="noreferrer"
+            className={`paper-card paper-card--${p.verdictKind}`}
+          >
             <div className="paper-head">
               <span className="paper-id">Paper {p.id}</span>
               <VBadge kind={p.verdictKind} label={p.verdict} />
@@ -126,10 +144,15 @@ function Papers() {
             <div className="paper-foot">
               <span className="paper-sims">{p.sims}</span>
               {p.explainer && (
-                <a href={p.explainer} className="paper-link">Explainer →</a>
+                <span
+                  className="paper-link"
+                  onClick={e => { e.preventDefault(); e.stopPropagation(); window.open(p.explainer); }}
+                >
+                  Explainer →
+                </span>
               )}
             </div>
-          </article>
+          </a>
         ))}
       </div>
     </section>
@@ -192,15 +215,23 @@ function PhaseBlock({ phase }) {
               </tr>
             </thead>
             <tbody>
-              {phase.sims.map(sim => (
-                <tr key={sim.id} className={simClass(sim.verdict)}>
-                  <td className="sim-id">{sim.id}</td>
-                  <td className="sim-topic">{sim.topic}</td>
-                  {hasTiers && <td className="sim-tier">{sim.tier || ''}</td>}
-                  <td className="sim-verdict">{sim.verdict}</td>
-                  {showAllSims && <td className="sim-detail">{sim.detail || ''}</td>}
-                </tr>
-              ))}
+              {phase.sims.map(sim => {
+                const url = simRepoUrl(sim.id);
+                return (
+                  <tr
+                    key={sim.id}
+                    className={simClass(sim.verdict) + (url ? ' sim--linked' : '')}
+                    onClick={url ? () => window.open(url, '_blank', 'noreferrer') : undefined}
+                    title={url ? `Open ${sim.id} in repository` : undefined}
+                  >
+                    <td className="sim-id">{sim.id}</td>
+                    <td className="sim-topic">{sim.topic}</td>
+                    {hasTiers && <td className="sim-tier">{sim.tier || ''}</td>}
+                    <td className="sim-verdict">{sim.verdict}</td>
+                    {showAllSims && <td className="sim-detail">{sim.detail || ''}</td>}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

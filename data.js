@@ -29,6 +29,7 @@ window.CMSTG_DATA = {
     {
       id: "I",
       slug: "paper1_nogo",
+      repoPath: "Papers/paper1_nogo",
       title: "Two Structural No-Go Theorems for Late-Time Modifications",
       sims: "SIM131–144",
       verdict: "FAIL / NO-GO",
@@ -39,6 +40,7 @@ window.CMSTG_DATA = {
     {
       id: "II",
       slug: "paper2_framework",
+      repoPath: "Papers/paper2_framework",
       title: "Framework, Field Equations, and Observational Tests",
       sims: "SIM80–111",
       verdict: "PASS (2.77σ floor)",
@@ -49,6 +51,7 @@ window.CMSTG_DATA = {
     {
       id: "III",
       slug: "paper3_uv",
+      repoPath: "Papers/paper3_uv",
       title: "UV Finiteness and the Λ₀ Fixed Point",
       sims: "SIM102–106",
       verdict: "PASS",
@@ -59,6 +62,7 @@ window.CMSTG_DATA = {
     {
       id: "IV",
       slug: "paper4_galactic",
+      repoPath: "Papers/paper4_galactic",
       title: "Galactic-Scale Constraints",
       sims: "SIM99–100, 103",
       verdict: "FAIL",
