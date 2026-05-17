@@ -15,6 +15,24 @@ function paperRepoUrl(p) {
   return p.repoPath ? REPO_BASE + p.repoPath : null;
 }
 
+// ── Modal overlay ─────────────────────────────────────────────
+function Modal({ url, onClose }) {
+  React.useEffect(() => {
+    const handler = e => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [onClose]);
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-frame" onClick={e => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+        <iframe src={url} className="modal-iframe" title="CMSTG Explainer" />
+      </div>
+    </div>
+  );
+}
+
 // ── KaTeX helper ─────────────────────────────────────────────
 function K({ s }) {
   const ref = React.useRef(null);
@@ -123,38 +141,51 @@ function Parameters() {
 
 // ── Papers ────────────────────────────────────────────────────
 function Papers() {
+  const [activeExplainer, setActiveExplainer] = React.useState(null);
+
   return (
     <section className="section" id="papers">
       <h2 className="sec-title">Publication Record</h2>
       <div className="papers-grid">
         {D.papers.map(p => (
-          <a
+          <article
             key={p.id}
-            href={paperRepoUrl(p)}
-            target="_blank"
-            rel="noreferrer"
             className={`paper-card paper-card--${p.verdictKind}`}
+            onClick={() => p.explainer && setActiveExplainer(p.explainer)}
+            title={p.explainer ? 'Click to open explainer' : undefined}
           >
             <div className="paper-head">
-              <span className="paper-id">Paper {p.id}</span>
+              <a
+                href={p.explainer || paperRepoUrl(p)}
+                target="_blank"
+                rel="noreferrer"
+                className="paper-id paper-id--link"
+                onClick={e => e.stopPropagation()}
+              >
+                Paper {p.id} ↗
+              </a>
               <VBadge kind={p.verdictKind} label={p.verdict} />
             </div>
             <h3 className="paper-title">{p.title}</h3>
             <p className="paper-summary">{p.summary}</p>
             <div className="paper-foot">
               <span className="paper-sims">{p.sims}</span>
-              {p.explainer && (
-                <span
-                  className="paper-link"
-                  onClick={e => { e.preventDefault(); e.stopPropagation(); window.open(p.explainer); }}
-                >
-                  Explainer →
-                </span>
-              )}
+              <a
+                href={paperRepoUrl(p)}
+                target="_blank"
+                rel="noreferrer"
+                className="paper-link"
+                onClick={e => e.stopPropagation()}
+              >
+                Repo →
+              </a>
             </div>
-          </a>
+          </article>
         ))}
       </div>
+      {activeExplainer && (
+        <Modal url={activeExplainer} onClose={() => setActiveExplainer(null)} />
+      )}
     </section>
   );
 }

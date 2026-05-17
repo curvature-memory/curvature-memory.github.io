@@ -212,6 +212,12 @@ a:hover { text-decoration: underline; }
   text-transform: uppercase;
   color: rgba(244,239,230,0.35);
 }
+.paper-id--link {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.paper-id--link:hover { color: #d06040; text-decoration: none; }
 .paper-title {
   font-size: 18px;
   font-weight: 500;
@@ -478,6 +484,48 @@ a:hover { text-decoration: underline; }
 }
 .tweaks-row:hover { color: rgba(244,239,230,0.85); }
 .tweaks-row input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+
+/* ── Modal overlay ──────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.78);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  backdrop-filter: blur(3px);
+}
+.modal-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1420px;
+  height: 90vh;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 32px 96px rgba(0,0,0,0.65);
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  background: rgba(27,26,23,0.88);
+  border: 1px solid rgba(244,239,230,0.18);
+  color: rgba(244,239,230,0.75);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.modal-close:hover { background: var(--fail); border-color: var(--fail); color: #fff; }
+.modal-iframe { width: 100%; height: 100%; border: none; display: block; }
 
 /* ── KaTeX overrides ────────────────────────────────────────── */
 .katex { font-size: 1em !important; }
