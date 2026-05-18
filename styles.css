@@ -530,14 +530,30 @@ a:hover { text-decoration: underline; }
 /* ── KaTeX overrides ────────────────────────────────────────── */
 .katex { font-size: 1em !important; }
 
+/* ── Table scroll wrapper ───────────────────────────────────── */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.param-table  { min-width: 520px; }
+.sim-table    { min-width: 460px; }
+
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 800px) {
   .main { padding: 0 20px 60px; }
   .navbar { padding: 12px 20px; flex-wrap: wrap; gap: 8px; }
-  .nav-links { gap: 18px; flex-wrap: wrap; }
+  .nav-links { gap: 14px; flex-wrap: wrap; }
   .hero { padding: 48px 0 40px; }
   .hero-eyebrow { flex-direction: column; gap: 4px; }
   .papers-grid { grid-template-columns: 1fr; }
   .pred-grid { grid-template-columns: 1fr; }
   .footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .navbar { padding: 10px 16px; }
+  .nav-link:not(.nav-link--repo) { display: none; }
+  .nav-links { gap: 0; }
+  .main { padding: 0 16px 48px; }
+  .hero { padding: 36px 0 32px; }
+  .hero-tagline { font-size: 17px; }
+  .sim-table th, .sim-table td { padding: 6px 12px; }
+  .param-table th, .param-table td { padding: 8px 12px; }
 }

@@ -49,6 +49,9 @@ function VBadge({ kind, label }) {
   return <span className={`vbadge vbadge--${kind}`}>{label}</span>;
 }
 
+// ── Sim verdict display (strip underscores) ───────────────────
+function formatVerdict(v) { return v.replace(/_/g, ' '); }
+
 // ── Sim verdict CSS class ─────────────────────────────────────
 function simClass(verdict = '') {
   const v = verdict.toUpperCase();
@@ -109,6 +112,7 @@ function Parameters() {
   return (
     <section className="section" id="parameters">
       <h2 className="sec-title">Canonical Parameters</h2>
+      <div className="table-scroll">
       <table className="param-table">
         <thead>
           <tr>
@@ -135,6 +139,7 @@ function Parameters() {
           ))}
         </tbody>
       </table>
+      </div>
     </section>
   );
 }
@@ -258,7 +263,7 @@ function PhaseBlock({ phase }) {
                     <td className="sim-id">{sim.id}</td>
                     <td className="sim-topic">{sim.topic}</td>
                     {hasTiers && <td className="sim-tier">{sim.tier || ''}</td>}
-                    <td className="sim-verdict">{sim.verdict}</td>
+                    <td className="sim-verdict">{formatVerdict(sim.verdict)}</td>
                     {showAllSims && <td className="sim-detail">{sim.detail || ''}</td>}
                   </tr>
                 );
