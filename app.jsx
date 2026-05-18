@@ -130,7 +130,7 @@ function Parameters() {
                   {p.status}
                 </span>
               </td>
-              <td className="td-note">{p.note ? <K s={p.note} /> : ''}</td>
+              <td className="td-note">{p.note ? (p.note.includes('\\') ? <K s={p.note} /> : p.note) : ''}</td>
             </tr>
           ))}
         </tbody>
